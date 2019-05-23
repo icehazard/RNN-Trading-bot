@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Brain Trading</title>
+    <script src="https://unpkg.com/brain.js@1.6.0/browser.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <script>
+
+
+
+
+// var initialScaleData = [0, 1000, 3000, 2000, 5000, 4000, 7000, 6000, 9000, 8000, 10000];
+
+// var newScaledData = [];
+
+// var linearScale = d3.scale.linear()
+//                    .domain([0,10000])
+//                    .range([0,100]);
+
+// for (var i = 0; i < initialScaleData.length; i++) {
+//   newScaledData[i] = linearScale(initialScaleData[i]);
+// }
+
+// console.log(newScaledData)
+
+
+
+var initialScaleData = [0, 1000, 3000, 2000, 5000, 4000, 7000, 6000, 9000, 8000, 10000];
+const rawData = [{"date":"2018-11-02","open":141.0716,"high":141.1014,"low":138.7762,"close":139.7898,"volume":7673303,"unadjustedVolume":7673303,"change":-0.139114,"changePercent":-0.099,"vwap":139.5278,"label":"Nov 2","changeOverTime":0},{"date":"2018-11-05","open":140.1078,"high":141.8367,"low":138.1204,"close":141.3002,"volume":5601398,"unadjustedVolume":5601398,"change":1.5104,"changePercent":1.08,"vwap":141.2547,"label":"Nov 5","changeOverTime":0.010804794055073943},{"date":"2018-11-06","open":140.6344,"high":141.9262,"low":140.1674,"close":141.6678,"volume":5798915,"unadjustedVolume":5798915,"change":0.367659,"changePercent":0.26,"vwap":141.4935,"label":"Nov 6","changeOverTime":0.013434456591253337},{"date":"2018-11-07","open":142.1945,"high":143.9567,"low":142.0653,"close":143.834,"volume":7173590,"unadjustedVolume":7173590,"change":2.1662,"changePercent":1.529,"vwap":143.4709,"label":"Nov 7","changeOverTime":0.0289305800566278},{"date":"2018-11-08","open":143.3968,"high":144.8695,"low":143.0888,"close":144.3805,"volume":5497130,"unadjustedVolume":5497130,"change":0.54652,"changePercent":0.38,"vwap":144.2387,"label":"Nov 8","changeOverTime":0.03284002123187813},{"date":"2018-11-09","open":144.1222,"high":144.8178,"low":143.4664,"close":144.4203,"volume":5343206,"unadjustedVolume":5343206,"change":0.039746,"changePercent":0.028,"vwap":144.4139,"label":"Nov 9","changeOverTime":0.03312473442268308},{"date":"2018-11-12","open":144.0725,"high":145.3146,"low":143.8141,"close":144.6985,"volume":7013577,"unadjustedVolume":7013577,"change":0.278229,"changePercent":0.193,"vwap":144.6873,"label":"Nov 12","changeOverTime":0.03511486531921486},{"date":"2018-11-13","open":145.2649,"high":145.8214,"low":142.5124,"close":143.7645,"volume":7432438,"unadjustedVolume":7432438,"change":-0.934052,"changePercent":-0.646,"vwap":143.9306,"label":"Nov 13","changeOverTime":0.028433405012382763},{"date":"2018-11-14","open":144.1023,"high":144.3905,"low":142.6516,"close":143.3372,"volume":6433077,"unadjustedVolume":6433077,"change":-0.427279,"changePercent":-0.297,"vwap":143.4752,"label":"Nov 14","changeOverTime":0.025376672689995848},{"date":"2018-11-15","open":142.5025,"high":143.5955,"low":141.5784,"close":143.5856,"volume":6658019,"unadjustedVolume":6658019,"change":0.248418,"changePercent":0.173,"vwap":142.7533,"label":"Nov 15","changeOverTime":0.027153626373311823},{"date":"2018-11-16","open":143.7943,"high":145.8114,"low":143.6353,"close":145.0662,"volume":8494311,"unadjustedVolume":8494311,"change":1.4806,"changePercent":1.031,"vwap":144.8256,"label":"Nov 16","changeOverTime":0.03774524321517017},{"date":"2018-11-19","open":145.5034,"high":147.5007,"low":145.4438,"close":146.7952,"volume":8714603,"unadjustedVolume":8714603,"change":1.729,"changePercent":1.192,"vwap":146.6115,"label":"Nov 19","changeOverTime":0.050113813740344286},{"date":"2018-11-20","open":146.5666,"high":147.8087,"low":145.4239,"close":145.5233,"volume":8937990,"unadjustedVolume":8937990,"change":-1.2719,"changePercent":-0.866,"vwap":146.2531,"label":"Nov 20","changeOverTime":0.04101515275077289},{"date":"2018-11-21","open":145.3047,"high":145.3047,"low":139.8891,"close":141.0915,"volume":10275810,"unadjustedVolume":10275810,"change":-4.4318,"changePercent":-3.045,"vwap":141.4162,"label":"Nov 21","changeOverTime":0.009311838202787201},{"date":"2018-11-23","open":140.9524,"high":141.8268,"low":140.704,"close":141.33,"volume":3404882,"unadjustedVolume":3404882,"change":0.238482,"changePercent":0.169,"vwap":141.3418,"label":"Nov 23","changeOverTime":0.01101797126828995},{"date":"2018-11-26","open":142,"high":142.05,"low":140.715,"close":141.37,"volume":7590941,"unadjustedVolume":7590941,"change":0.040031,"changePercent":0.028,"vwap":141.16,"label":"Nov 26","changeOverTime":0.01130411517864673},{"date":"2018-11-27","open":140.57,"high":143.35,"low":139.66,"close":143.22,"volume":5962112,"unadjustedVolume":5962112,"change":1.85,"changePercent":1.309,"vwap":141.5703,"label":"Nov 27","changeOverTime":0.02453827103265034},{"date":"2018-11-28","open":143.83,"high":146.56,"low":143.36,"close":146.44,"volume":8411383,"unadjustedVolume":8411383,"change":3.22,"changePercent":2.248,"vwap":145.5168,"label":"Nov 28","changeOverTime":0.04757285581637561},{"date":"2018-11-29","open":145.62,"high":147.2,"low":144.84,"close":145.85,"volume":6900046,"unadjustedVolume":6900046,"change":-0.59,"changePercent":-0.403,"vwap":146.1078,"label":"Nov 29","changeOverTime":0.04335223313861226},{"date":"2018-11-30","open":145.34,"high":147,"low":145.1,"close":146.9,"volume":12517550,"unadjustedVolume":12517550,"change":1.05,"changePercent":0.72,"vwap":146.2548,"label":"Nov 30","changeOverTime":0.05086351078547928}];
+
+let binance = [[1558120500000,"7083.80000000","7109.39000000","7045.10000000","7074.72000000","502.23389600",1558121399999,"3553863.49364854",5549,"313.70253400","2220150.85138440","0"],[1558121400000,"7074.56000000","7111.00000000","7062.65000000","7109.99000000","386.70745900",1558122299999,"2740640.78856487",4812,"233.14528000","1652479.60322672","0"],[1558122300000,"7109.66000000","7144.99000000","7074.16000000","7136.72000000","624.92853400",1558123199999,"4443768.12693101",6303,"386.56841300","2749606.74980440","0"],[1558123200000,"7135.73000000","7138.87000000","7080.00000000","7111.93000000","573.94983200",1558124099999,"4081158.12261456",5974,"275.84204500","1961814.27180262","0"],[1558124100000,"7111.80000000","7124.66000000","7079.02000000","7101.36000000","439.47876700",1558124999999,"3123029.37634794",5082,"214.03504900","1521131.92899801","0"],[1558125000000,"7101.17000000","7119.28000000","7070.00000000","7115.39000000","342.58465400",1558125899999,"2430365.94538514",4089,"182.44073900","1294578.59381775","0"],[1558125900000,"7115.33000000","7140.00000000","7097.08000000","7124.60000000","358.33754000",1558126799999,"2550663.24612252",4738,"212.29238700","1511181.88351348","0"],[1558126800000,"7124.62000000","7244.01000000","7122.00000000","7243.86000000","1169.71598900",1558127699999,"8419701.70776648",10011,"737.13637500","5305813.97923481","0"],[1558127700000,"7241.50000000","7249.59000000","7165.00000000","7208.20000000","792.06952000",1558128599999,"5721560.27572794",6836,"270.08763400","1949690.63910520","0"],[1558128600000,"7209.72000000","7250.00000000","7200.71000000","7232.56000000","695.27621200",1558129499999,"5026278.69294325",5726,"441.63636400","3191843.19273533","0"],[1558129500000,"7230.89000000","7280.00000000","7230.89000000","7264.69000000","524.50137700",1558130399999,"3807686.30798745",5290,"279.16655000","2026650.31597027","0"],[1558130400000,"7264.64000000","7308.25000000","7253.67000000","7266.10000000","793.54581200",1558131299999,"5786749.53104849",7215,"477.71886800","3484297.24330812","0"],[1558131300000,"7263.34000000","7294.64000000","7191.00000000","7215.70000000","1030.95448200",1558132199999,"7472479.05570772",8201,"490.15324300","3552603.20447571","0"],[1558132200000,"7215.36000000","7266.12000000","7191.00000000","7256.30000000","454.91110500",1558133099999,"3289248.90776813",4133,"251.93753200","1822046.59792637","0"],[1558133100000,"7257.53000000","7266.38000000","7227.62000000","7240.69000000","291.12437700",1558133999999,"2110614.88337568",3183,"129.68031800","939985.08900114","0"],[1558134000000,"7240.12000000","7291.66000000","7231.17000000","7289.13000000","491.90659200",1558134899999,"3576595.56413500",4379,"227.00261600","1648978.19097242","0"],[1558134900000,"7289.14000000","7298.99000000","7262.01000000","7281.02000000","327.75369700",1558135799999,"2386570.01581951",3398,"145.80420800","1061377.36098625","0"],[1558135800000,"7280.18000000","7375.00000000","7280.18000000","7316.96000000","1156.35250900",1558136699999,"8482066.09452467",8514,"644.96066400","4731250.10324339","0"],[1558136700000,"7316.73000000","7371.42000000","7311.01000000","7355.26000000","541.60758800",1558137599999,"3979249.94982578",5081,"303.94932300","2233191.68280344","0"],[1558137600000,"7355.28000000","7434.61000000","7354.50000000","7392.90000000","1187.73835000",1558138499999,"8789952.14598284",10221,"637.06140500","4714670.38364341","0"],[1558138500000,"7393.41000000","7398.80000000","7290.00000000","7342.73000000","1197.27297000",1558139399999,"8791590.91284905",10073,"600.01947700","4405899.24829800","0"],[1558139400000,"7343.78000000","7350.00000000","7290.00000000","7304.94000000","557.30429500",1558140299999,"4081162.30732309",5173,"272.04291100","1992185.82364076","0"],[1558140300000,"7305.84000000","7314.30000000","7255.05000000","7284.62000000","504.93299500",1558141199999,"3678729.12768749",4883,"254.17794800","1851851.21134187","0"],[1558141200000,"7286.04000000","7331.88000000","7282.28000000","7322.72000000","553.65032800",1558142099999,"4046810.23457507",4710,"260.69732700","1905355.76607515","0"],[1558142100000,"7321.70000000","7339.57000000","7273.03000000","7283.15000000","427.77768600",1558142999999,"3126463.73299143",4297,"203.76742500","1489324.81419914","0"],[1558143000000,"7283.20000000","7296.62000000","7227.00000000","7247.25000000","460.89065500",1558143899999,"3348049.31207156",5118,"232.74431700","1691257.69623658","0"],[1558143900000,"7248.95000000","7282.85000000","7227.12000000","7259.31000000","467.95235900",1558144799999,"3396995.77785275",4630,"275.44931700","1999602.09933190","0"],[1558144800000,"7259.27000000","7314.12000000","7256.53000000","7292.55000000","359.04479700",1558145699999,"2617637.11102345",4203,"201.83583200","1471450.45507640","0"]]
+
+const high = []
+const low = []
+
+let clean = (v) => {
+    high.push(v[2])
+    low.push(v[3])
+    return {
+        open: v[1],
+        high: v[2],
+        low: v[3],
+        close: v[4]
+    }
+
+}
+
+
+//console.log(open)
+
+var test = binance.map(clean)
+
+//console.log(test[0])
+
+var maxInitialData = d3.max(high);
+var minInitialData = d3.min(low);
+
+// console.log(maxInitialData)
+// console.log(minInitialData)
+// console.log(test)
+
+var scaleUp = d3.scaleLinear()
+  .domain([0,1])
+  .range([minInitialData, maxInitialData]);
+
+
+var myScale = d3.scaleLinear()
+  .domain([minInitialData, maxInitialData])
+  .range([0, 1]);
+
+  //const scaledData = test.map(myScale);
+
+
+  let dataScaled = test.map(x => {
+      return {
+        open: myScale(x.open),
+        high: myScale(x.high),
+        low: myScale(x.low),
+        close: myScale(x.close)
+      }
+   
+  })
+
+  //console.log(dataScaled)
+
+let cutInChunks = (cut) => {
+    let array  = []
+    for ( x in cut){
+        
+        let number = x
+       // console.log(x)
+        if (x % 5 == true){
+            //array.push(cut.slice(x, x+5))
+            // console.log(x-1)
+            // console.log(x)
+
+             var a = parseInt(number) - 1
+            var b =  parseInt(number) + 4
+
+            
+            array.push(cut.slice(a,b))
+
+            //array.push(cut.slice(parseInt(number) - 1),parseInt(number) + 4)
+        }
+        
+        
+    }
+
+    return array
+}
+let bitrainingData = cutInChunks(dataScaled)
+
+
+
+
+
+const net = new brain.recurrent.LSTMTimeStep({
+    inputSize: 4,
+    hiddenLayers: [8, 8],
+    outputSize: 4
+});
+
+net.train(bitrainingData, {
+    learningRate: 0.005,
+    errorThresh: 0.1,
+    log: (stats) => console.log(stats)
+});
+
+
+
+let results = (net.forecast([
+bitrainingData[3][0],
+bitrainingData[3][1],
+bitrainingData[3][2],
+bitrainingData[3][3],
+bitrainingData[3][4],
+], 5).map(scale3)
+
+)
+//console.log(scaleUp(results[1].open))
+
+console.log(results)
+function scale3(x){
+    return {
+        open: parseFloat(scaleUp(x.open)),
+        high: parseFloat(scaleUp(x.high)),
+        low: parseFloat(scaleUp(x.low)),
+        close: parseFloat(scaleUp(x.close))
+    
+}
+}
+//console.log(results)
+
+// console.log(results.map(x => {
+//     return {
+//         open: parseFloat(scaleUp(x.open)),
+//         high: parseFloat(scaleUp(x.high)),
+//         low: parseFloat(scaleUp(x.low)),
+//         close: parseFloat(scaleUp(x.close))
+//     }
+// }))
+
+// console.log(test)
+// console.log((bitrainingData[3]).map(x => {
+//     return {
+//         open: parseFloat(scaleUp(x.open)),
+//         high: parseFloat(scaleUp(x.high)),
+//         low: parseFloat(scaleUp(x.low)),
+//         close: parseFloat(scaleUp(x.close))
+//     }
+// }))
+
+//console.log(results.map(x => {console.log((x.open))}))
+
+
+
+// let scale2 = (data) => {
+//     data.map((x,index) => {
+//     if (x[index]){
+//               return {
+//         open: scaleUp(x[index].open),
+//         high: scaleUp(x[index].high),
+//         low: scaleUp(x[index].low),
+//         close: scaleUp(x[index].close)
+//       }
+//     }
+
+//   })
+//   }
+
+
+
+
+
+//onsole.log(results.map(x => {console.log(scale2(x))}))
+
+// console.log(bitrainingData[0].map(scaleUp))
+
+
+//    console.log(unScaled)  
+
+//   console.log(unScaled)
+
+
+
+  // const trainingData = [
+//     scaledData.slice(0, 5),
+//     scaledData.slice(5, 10),
+//     scaledData.slice(10, 15),
+//     scaledData.slice(15, 20),
+// ];
+
+// console.log(myScale(test[0].open))
+//   console.log(myScale(initialScaleData[9]))
+        // const trainingData = [[1,2,3,4,5], [5,4,3,2,1], [9,8,7,6,5,4,3,2,1], [4,5,6], [8,6,4,2,0]]
+
+        // const net = new brain.recurrent.LSTMTimeStep()
+
+        // net.train(trainingData)
+
+        // console.log(net.run([8,6,4]))
+
+//         const rawData = [{"date":"2018-11-02","open":141.0716,"high":141.1014,"low":138.7762,"close":139.7898,"volume":7673303,"unadjustedVolume":7673303,"change":-0.139114,"changePercent":-0.099,"vwap":139.5278,"label":"Nov 2","changeOverTime":0},{"date":"2018-11-05","open":140.1078,"high":141.8367,"low":138.1204,"close":141.3002,"volume":5601398,"unadjustedVolume":5601398,"change":1.5104,"changePercent":1.08,"vwap":141.2547,"label":"Nov 5","changeOverTime":0.010804794055073943},{"date":"2018-11-06","open":140.6344,"high":141.9262,"low":140.1674,"close":141.6678,"volume":5798915,"unadjustedVolume":5798915,"change":0.367659,"changePercent":0.26,"vwap":141.4935,"label":"Nov 6","changeOverTime":0.013434456591253337},{"date":"2018-11-07","open":142.1945,"high":143.9567,"low":142.0653,"close":143.834,"volume":7173590,"unadjustedVolume":7173590,"change":2.1662,"changePercent":1.529,"vwap":143.4709,"label":"Nov 7","changeOverTime":0.0289305800566278},{"date":"2018-11-08","open":143.3968,"high":144.8695,"low":143.0888,"close":144.3805,"volume":5497130,"unadjustedVolume":5497130,"change":0.54652,"changePercent":0.38,"vwap":144.2387,"label":"Nov 8","changeOverTime":0.03284002123187813},{"date":"2018-11-09","open":144.1222,"high":144.8178,"low":143.4664,"close":144.4203,"volume":5343206,"unadjustedVolume":5343206,"change":0.039746,"changePercent":0.028,"vwap":144.4139,"label":"Nov 9","changeOverTime":0.03312473442268308},{"date":"2018-11-12","open":144.0725,"high":145.3146,"low":143.8141,"close":144.6985,"volume":7013577,"unadjustedVolume":7013577,"change":0.278229,"changePercent":0.193,"vwap":144.6873,"label":"Nov 12","changeOverTime":0.03511486531921486},{"date":"2018-11-13","open":145.2649,"high":145.8214,"low":142.5124,"close":143.7645,"volume":7432438,"unadjustedVolume":7432438,"change":-0.934052,"changePercent":-0.646,"vwap":143.9306,"label":"Nov 13","changeOverTime":0.028433405012382763},{"date":"2018-11-14","open":144.1023,"high":144.3905,"low":142.6516,"close":143.3372,"volume":6433077,"unadjustedVolume":6433077,"change":-0.427279,"changePercent":-0.297,"vwap":143.4752,"label":"Nov 14","changeOverTime":0.025376672689995848},{"date":"2018-11-15","open":142.5025,"high":143.5955,"low":141.5784,"close":143.5856,"volume":6658019,"unadjustedVolume":6658019,"change":0.248418,"changePercent":0.173,"vwap":142.7533,"label":"Nov 15","changeOverTime":0.027153626373311823},{"date":"2018-11-16","open":143.7943,"high":145.8114,"low":143.6353,"close":145.0662,"volume":8494311,"unadjustedVolume":8494311,"change":1.4806,"changePercent":1.031,"vwap":144.8256,"label":"Nov 16","changeOverTime":0.03774524321517017},{"date":"2018-11-19","open":145.5034,"high":147.5007,"low":145.4438,"close":146.7952,"volume":8714603,"unadjustedVolume":8714603,"change":1.729,"changePercent":1.192,"vwap":146.6115,"label":"Nov 19","changeOverTime":0.050113813740344286},{"date":"2018-11-20","open":146.5666,"high":147.8087,"low":145.4239,"close":145.5233,"volume":8937990,"unadjustedVolume":8937990,"change":-1.2719,"changePercent":-0.866,"vwap":146.2531,"label":"Nov 20","changeOverTime":0.04101515275077289},{"date":"2018-11-21","open":145.3047,"high":145.3047,"low":139.8891,"close":141.0915,"volume":10275810,"unadjustedVolume":10275810,"change":-4.4318,"changePercent":-3.045,"vwap":141.4162,"label":"Nov 21","changeOverTime":0.009311838202787201},{"date":"2018-11-23","open":140.9524,"high":141.8268,"low":140.704,"close":141.33,"volume":3404882,"unadjustedVolume":3404882,"change":0.238482,"changePercent":0.169,"vwap":141.3418,"label":"Nov 23","changeOverTime":0.01101797126828995},{"date":"2018-11-26","open":142,"high":142.05,"low":140.715,"close":141.37,"volume":7590941,"unadjustedVolume":7590941,"change":0.040031,"changePercent":0.028,"vwap":141.16,"label":"Nov 26","changeOverTime":0.01130411517864673},{"date":"2018-11-27","open":140.57,"high":143.35,"low":139.66,"close":143.22,"volume":5962112,"unadjustedVolume":5962112,"change":1.85,"changePercent":1.309,"vwap":141.5703,"label":"Nov 27","changeOverTime":0.02453827103265034},{"date":"2018-11-28","open":143.83,"high":146.56,"low":143.36,"close":146.44,"volume":8411383,"unadjustedVolume":8411383,"change":3.22,"changePercent":2.248,"vwap":145.5168,"label":"Nov 28","changeOverTime":0.04757285581637561},{"date":"2018-11-29","open":145.62,"high":147.2,"low":144.84,"close":145.85,"volume":6900046,"unadjustedVolume":6900046,"change":-0.59,"changePercent":-0.403,"vwap":146.1078,"label":"Nov 29","changeOverTime":0.04335223313861226},{"date":"2018-11-30","open":145.34,"high":147,"low":145.1,"close":146.9,"volume":12517550,"unadjustedVolume":12517550,"change":1.05,"changePercent":0.72,"vwap":146.2548,"label":"Nov 30","changeOverTime":0.05086351078547928}];
+
+
+//         function scaleDown(step) { // normalize
+//     return {
+//         open: step.open / 138,
+//         high: step.high / 138,
+//         low: step.low / 138,
+//         close: step.close / 138
+//     };
+// }
+
+// function scaleUp(step) { // denormalize
+//     return {
+//         open: step.open * 138,
+//         high: step.high * 138,
+//         low: step.low * 138,
+//         close: step.close * 138
+//     };
+// }
+
+
+// const scaledData = rawData.map(scaleDown);
+
+
+
+
+// const trainingData = [
+//     scaledData.slice(0, 5),
+//     scaledData.slice(5, 10),
+//     scaledData.slice(10, 15),
+//     scaledData.slice(15, 20),
+// ];
+
+// const net = new brain.recurrent.LSTMTimeStep({
+//     inputSize: 4,
+//     hiddenLayers: [8, 8],
+//     outputSize: 4
+// });
+
+// net.train(trainingData, {
+//     learningRate: 0.005,
+//     errorThresh: 0.02,
+//     log: (stats) => console.log(stats)
+// });
+// // console.log((trainingData[1]).map(scaleUp))
+// // console.log((trainingData[2]).map(scaleUp))
+// // console.log(scaleUp(net.run(trainingData[0])));
+
+// slice = 1
+
+// // console.log(net.forecast([
+// //     trainingData[slice][0],
+// //     trainingData[slice][1],
+// // ], 3).map(scaleUp));
+
+
+// const json = net.toJSON();
+// net.fromJSON(json);
+// console.log(json)
+
+// //console.log( (trainingData[slice]).map(scaleUp))
+
+
+    </script>
+</body>
+
+</html>
