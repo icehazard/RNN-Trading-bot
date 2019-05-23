@@ -80,6 +80,12 @@
             return el.map(ScaleDataDown)
         })
 
+        function percentDifference(a, b) {
+            let sign  = ((a < b) ? '- ' : '+ ')
+
+            return  100 * Math.abs( ( a - b ) / ( (a+b)/2 ) );
+        }
+
         const net = new brain.recurrent.LSTMTimeStep({
             inputSize: 4,
             hiddenLayers: [8, 8],
@@ -92,7 +98,7 @@
             //log: (stats) => console.log(stats)
         });
 
-        let arrayPos = 2
+        let arrayPos = Math.floor(Math.random() * 4)
 
         let trainingResults = (net.forecast([
             trainingData[arrayPos][0],
@@ -112,6 +118,23 @@
         console.log("**real price movemnet**")
         console.log(trainingData[arrayPos + 1].map(scaleDataUp))
         console.log("**real price movemnet**")
+
+
+        let sign = ""
+        let a = scaleUp(trainingData[arrayPos][4].open)
+        console.log(a)
+        
+        let b = scaleUp(trainingData[arrayPos+1][4].open)
+            if (a > b){
+                sign = "-"
+            }else{
+                sign = "+"
+            }
+        console.log("actual change ", sign, percentDifference(a,b))
+        let c = (trainingResults[arrayPos].open)
+        let d = (trainingResults[arrayPos+1].open)
+        console.log("predicted change ",sign, percentDifference(c,d))
+
 
     </script>
 </body>
