@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 app.get('/api', function (req, res) {
     console.log("api")
 
-    request('https://api.binance.com/api/v1/klines?symbol=BTCUSDT&interval=15m', function (error, response, body) {
+    request('https://api.binance.com/api/v1/klines?symbol=BTCUSDT&interval=1m&startTime=1499040000000&endTime=2499040000000', function (error, response, body) {
     if (!error && response.statusCode == 200) {
         //console.log(body) // Print the google web page.
         res.send(body)

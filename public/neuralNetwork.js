@@ -11,13 +11,14 @@
                     
         const high = []
         const low = []
+        let chunkLength = 50
 
         function prune(v) {
             return {
                 open: parseFloat(v[1]),
                 high: parseFloat(v[2]),
                 low: parseFloat(v[3]),
-                close: parseFloat(v[4])
+                close: parseFloat(v[4]),
             }
         }
 
@@ -59,13 +60,17 @@
             }
         }
 
+
+        
+        
+
         function chunks(cut) {
             let array = []
             for (x in cut) {
                 let number = x
-                if (x % 10 == true) {
+                if (x % chunkLength == true ) {
                     var a = parseInt(number) - 1
-                    var b = parseInt(number) + 9
+                    var b = parseInt(number) + chunkLength-1
                     array.push(cut.slice(a, b))
                 }
             }
@@ -74,12 +79,12 @@
 
         let results = chunks(pruned)
 
+
        
 
         let trainingData = results.map(el => {
             return el.map(ScaleDataDown)
         })
-        console.log(trainingData)
         function percentDifference(a, b) {
             let sign  = ((a < b) ? '- ' : '+ ')
 
@@ -98,11 +103,11 @@
             //log: (stats) => console.log(stats)
         });
 
-        let arrayPos = Math.floor(Math.random() * 50)
+        let arrayPos = Math.floor(Math.random() * 500/chunkLength)
 
 
         let train = []
-        for (let i = 0; i < 10; i++) { 
+        for (let i = 0; i < chunkLength; i++) { 
             train.push(trainingData[arrayPos][x])
           }
         
@@ -110,7 +115,7 @@
         let trainingResults = (net.forecast([
             
             train
-        ], 10).map(scaleDataUp))
+        ], chunkLength).map(scaleDataUp))
 
 
         console.log("**next 5 prediction**")
@@ -125,9 +130,9 @@
 
         let sign = ""
         let a = scaleUp(trainingData[arrayPos][0].open)
-        console.log(a)
+        console.log(train.length)
         
-        let b = scaleUp(trainingData[arrayPos+1][train.length-1].open)
+        let b = scaleUp(trainingData[arrayPos+1][chunkLength-1].open)
             if (a > b){
                 sign = "-"
             }else{
@@ -135,7 +140,7 @@
             }
         console.log("actual change ", sign, percentDifference(a,b))
         let c = scaleUp(trainingResults[0].open)
-        let d = scaleUp(trainingResults[train.length-1].open)
+        let d = scaleUp(trainingResults[chunkLength-1].open)
         console.log("predicted change ",sign, percentDifference(c,d))
 
 
